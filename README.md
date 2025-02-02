@@ -16,5 +16,9 @@
 - аналітики.
 
 ## Технології
-
-
+* [Django 5.1.5](https://www.djangoproject.com/)
+* [Python](https://www.python.org/)
+* [Vue.js](https://vuejs.org/)
+* [PostgreSQL](https://www.postgresql.org/)
+* [CKEditor 5](https://ckeditor.com/)
+* [Docker](https://www.docker.com/)
