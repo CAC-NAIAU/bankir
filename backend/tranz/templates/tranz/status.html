@@ -1,0 +1,69 @@
+<br>
+<div class="row">
+    <div class="col">
+        <div class="col-md">
+            <div class="top-card text-center text-white bg-success mb-3" id="figurants-total" data-status="total" onclick="filterFigurants('total')">
+                <div class="card-header">
+                    <h5 class="card-title">Всі</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{total_figurants}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="top-card text-center text-white bg-primary mb-3" id="figurants-progress" data-status="in_progress" onclick="filterFigurants('in_progress')">
+                <div class="card-header">
+                    <h5 class="card-title">У роботі</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{progress_figurants}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="top-card text-center text-black mb-3" id="figurants-delivered" data-status="done" onclick="filterFigurants('done')">
+                <div class="card-header">
+                    <h5 class="card-title">Відпрацьовані</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{done_figurants}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="top-card text-center text-white bg-danger mb-3" id="basket" data-status="basket" onclick="filterFigurants('basket')">
+                <div class="card-header">
+                    <h5 class="card-title">Кошик</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{basket_figurants}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .top-card:hover {
+        transform: scale(1.2);
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    function filterFigurants(status) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('status', status);
+        window.location.href = url.toString();
+    }
+</script>

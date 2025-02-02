@@ -1,0 +1,10 @@
+django
+django-filter
+django-dbbackup
+django-apscheduler
+psycopg2-binary
+pillow
+pandas
+django-ckeditor-5
+djangorestframework
+django-cors-headers

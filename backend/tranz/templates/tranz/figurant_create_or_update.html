@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if messages %}
+    <div class="container mt-3" style="max-width: 10000px; margin: 0 auto;">
+        {% for message in messages %}
+            <div 
+                class="alert alert-{{ message.tags }} alert-dismissible fade show" 
+                role="alert"
+            >
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<form enctype="multipart/form-data" class="container" method="post" id="figurant_form" style="max-width: 10000px; margin: 0 auto;">
+    {% csrf_token %}
+
+    <!-- main form start --- in our case figurant form -->
+    <div class="card">
+        <div class="card-header card-header-secondary">
+            {% if figurant.fig_inn %}
+                <h4 class="card-title d-flex justify-content-center">
+                    <a href="{% url 'tranz:create_chart' figurant.fig_inn %}" class="btn custom-btn" style="width: 200px;">
+                        Схема
+                    </a>
+                    <a href="{% url 'tranz:generate_reports' figurant.fig_inn %}" class="btn custom-btn" style="width: 200px;">
+                        Довідка
+                    </a>
+                </h4>
+            {% endif %}
+        </div>
+        
+        <!-- add logo -->
+        <style>
+            .logo {
+                display: block;
+                max-width: 200px;
+                max-height: 200px;
+                width: auto;
+                height: auto;
+                margin: 0 auto;
+            }
+            .custom-btn {
+                background-color: white;
+                color: black;
+                border: 1px solid black;
+                text-align: center;
+                font-weight: bold;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+            .custom-btn:hover {
+                background-color: black;
+                color: white;
+            }
+        </style>
+        <img
+            class='logo' 
+                src="{{ figurant.fig_logo.url }}"
+                alt="{{ figurant.fig_inn.url }}"
+             />
+        {{ form.media }}
+        {{ form.as_p }}
+        <style>
+            label[for="id_activity_info"],
+            label[for="id_add_info"],
+            label[for="id_fig_logo"]   {
+                                        text-align: center;
+                                        font-weight: bold;
+                                        color: red;
+                                        display: block;
+                                        }
+        </style>
+    </div>
+
+    {% with named_formsets.procurements as formset %}
+        <div class="table-responsive card mt-4">
+            <div class="card-header card-header-secondary">
+                {% if figurant.fig_inn %}
+                    <a href="{% url 'tranz:update_figurant' figurant.fig_inn %}" class="btn btn-secondary" style="width: 500px;">
+                        Зв'язані транзакції (к-ть {{ formset.initial_form_count }})
+                    </a>
+                    <a href="{% url 'tranz:procurement_pivot' figurant.fig_inn %}" class="btn custom-btn" style="width: 200px;">Звести</a>
+                    <a href="{% url 'tranz:procurement_download' figurant.fig_inn %}" class="btn custom-btn" style="width: 200px;">Завантажити XLSX</a>
+                    <a href="{% url 'tranz:procurement_update' figurant.fig_inn %}" class="btn custom-btn" style="width: 200px;">Оновити</a>
+                {% else %}
+                    <span class="btn btn-secondary disabled" style="width: 500px;">
+                        Зв'язані транзакції (к-ть {{ formset.initial_form_count }})
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+    {% endwith %}
+
+    <br/><br/>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-secondary btn-block">Зберегти</button>
+        <a href="{% url 'tranz:figurant_list' %}" class="btn btn-secondary btn-block">Скасувати</a>
+    </div>
+
+</form>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        
+{% endblock content %}

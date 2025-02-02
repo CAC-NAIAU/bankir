@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="card" style="margin: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <div class="card-header card-header-secondary" style="background-color: #ffffff; color: #000000; padding: 15px;">
+            <h4 class="card-title" style="margin: 0; font-size: 1.5rem; font-weight: 600; color: #000000; letter-spacing: 1px; text-transform: uppercase; text-align: center;">BANKIR MANAGEMENT SYSTEM</h4>
+            {% include 'tranz/status.html' %}
+            <div style="margin-top: 10px;">
+                <a href="{% url 'tranz:create_figurant' %}" class="animated-link">Додати</a>
+                <a> | </a>
+                <a href="{% url 'tranz:global_search' %}" class="animated-link">Глобальний пошук</a>
+                <a> | </a>
+                <a href="{% url 'tranz:network_analysis' %}" class="animated-link">Зв'язки-Схеми-Довідки</a>
+                <a> | </a>
+                <a href="{% url 'tranz:convertator' %}" class="animated-link">Конвертація</a>
+            </div>
+        </div>
+        
+        <div class="row" style="margin: 20px;">
+            <div class="col-md">
+                <div class="card card-body text-center" style="padding: 20px; border-radius: 8px;">
+                    <table class="table table-hover">
+                        <thead style="margin: 0; font-size: 1.2rem; font-weight: 600; color: #000000; letter-spacing: 1px; text-transform: uppercase; text-align: center; background-color: #ffffff; color: #000000;">
+                            <tr>
+                                <th>Код</th>
+                                <th>Назва</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for figurant in figurants %}
+                                <tr style="cursor: pointer;">
+                                    <td><a href="{% url 'tranz:update_figurant' figurant.fig_inn %}" fig="_blank" style="color: black; text-decoration: none;">{{ figurant.fig_inn }}</a></td>
+                                    <td><a href="{% url 'tranz:update_figurant' figurant.fig_inn %}" fig="_blank" style="color: black; text-decoration: none;">{{ figurant.fig_name }}</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>    
+    </div>
+
+    <style>
+        .animated-link {
+            color: black;
+            text-decoration: none;
+            margin-right: 15px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .animated-link:hover {
+            background-color: black;
+            color: #ffffff;
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .table th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+    </style>
+{% endblock content %}

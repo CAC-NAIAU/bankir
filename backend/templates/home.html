@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Bankir Management System</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .container {
+        text-align: center;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 80%;
+        max-width: 500px;
+      }
+      h1 {
+        font-size: 24px;
+        color: #0073e6;
+        margin-bottom: 20px;
+      }
+      p {
+        font-size: 18px;
+        margin: 15px 0;
+      }
+      a {
+        display: inline-block;
+        text-decoration: none;
+        color: #0073e6;
+        background-color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 16px;
+        margin: 10px 0;
+        transition: background-color 0.3s;
+      }
+      a:hover {
+        background-color: #005bb5;
+        color: #ffffff;
+      }
+      .divider {
+        margin: 20px 0;
+        border-top: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      {% extends 'base.html' %}
+      {% block content %}
+        <h1>Ласкаво просимо в Bankir Management System</h1>
+        <br></br>
+        <p>Якщо Ви не ввійшли в систему:</p>
+        <a href="{% url 'login' %}">Логін</a>
+        <div class="divider"></div>
+        <p>Якщо Ви ввійшли в систему:</p>
+        <a href="{% url 'tranz:figurant_list' %}">Перейти на інформаційну панель</a>
+      {% endblock %}
+    </div>
+  </body>
+</html>
+

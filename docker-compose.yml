@@ -1,0 +1,59 @@
+version: '3.8'
+
+volumes:
+  backend:
+    driver: local
+  postgres-db:
+    external: true
+    name: postgres-backend-volume
+
+networks:
+  aleph_default:
+    external: true
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: >
+      sh -c "python manage.py wait_for_db &&
+             python manage.py makemigrations &&
+             python manage.py migrate &&
+             DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD} python manage.py createsuperuser --username=${DJANGO_SUPERUSER_NAME} --email=${DJANGO_SUPERUSER_EMAIL} --noinput || echo 'Superuser creation skipped or failed' &&
+             python manage.py runserver ${BANKIR_HOST}:${BANKIR_PORT} &&
+             python manage.py collectstatic"
+    ports:
+      - ${BANKIR_PORT}:${BANKIR_PORT}
+    networks:
+      aleph_default:
+        ipv4_address: 172.27.0.14
+    volumes:
+      - ./backend:/app
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=1
+      - DB_HOST=postgres-db
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - BANKIR_HOST=${BANKIR_HOST}:${BANKIR_PORT}
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres-db
+  
+  postgres-db:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    ports:
+      - "5432:5433"
+    networks:
+      aleph_default:
+        ipv4_address: 172.27.0.15
+    volumes:
+      - ./data/postgres-db:/var/lib/postgresql/data
